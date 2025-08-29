@@ -1,51 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Simple Website</title>
-  <style>
-    /* Hide the real cursor */
-    body, button, input, select, textarea, audio, video {
-      cursor: none;
-    }
+<meta charset="UTF-8">
+<title>Guns.lol Style Cursor</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    cursor: none;
+    background: #111;
+  }
 
-    /* Custom circle cursor */
-    #custom-cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 32px;
-      height: 32px;
-      border: 2px solid black;
-      border-radius: 50%;
-      pointer-events: none; /* so it doesn't block clicks */
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s ease-out;
-      z-index: 9999;
-    }
-  </style>
+  .cursor-inner,
+  .cursor-outer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+
+  .cursor-inner {
+    width: 8px;
+    height: 8px;
+    background: white;
+  }
+
+  .cursor-outer {
+    width: 32px;
+    height: 32px;
+    border: 2px solid white;
+    transition: width 0.15s ease, height 0.15s ease, border 0.15s ease;
+  }
+
+  /* Hover effect on clickable items */
+  button:hover, a:hover, input:hover {
+    cursor: none;
+  }
+
+  .cursor-outer.hovered {
+    width: 48px;
+    height: 48px;
+    border-color: red;
+  }
+</style>
 </head>
 <body>
-  <h1>Welcome to My Website</h1>
-  <p>This is a very simple HTML page.</p>
+<button style="position:absolute;top:50px;left:50px;">Test Button</button>
 
-  <h2>Play My Song</h2>
-  <audio controls>
-    <source src="Song.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+<div class="cursor-inner"></div>
+<div class="cursor-outer"></div>
 
-  <button>Click Me</button>
+<script>
+const inner = document.querySelector('.cursor-inner');
+const outer = document.querySelector('.cursor-outer');
 
-  <!-- Circle cursor element -->
-  <div id="custom-cursor"></div>
+let mouseX = 0, mouseY = 0;
+let outerX = 0, outerY = 0;
 
-  <script>
-    const cursor = document.getElementById('custom-cursor');
+// Track mouse position
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  inner.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+});
 
-    document.addEventListener('mousemove', e => {
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-    });
-  </script>
+// Animate outer circle with smooth trailing
+function animate() {
+  outerX += (mouseX - outerX) * 0.15;
+  outerY += (mouseY - outerY) * 0.15;
+  outer.style.transform = `translate(${outerX}px, ${outerY}px) translate(-50%, -50%)`;
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Hover effect
+document.querySelectorAll('button, a, input').forEach(el => {
+  el.addEventListener('mouseenter', () => outer.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => outer.classList.remove('hovered'));
+});
+
+// Click effect (optional)
+document.addEventListener('mousedown', () => {
+  outer.style.transform += ' scale(0.8)';
+});
+document.addEventListener('mouseup', () => {
+  outer.style.transform = outer.style.transform.replace(' scale(0.8)','');
+});
+</script>
 </body>
 </html>
