@@ -1,94 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Guns.lol Style Cursor</title>
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    cursor: none;
-    background: #111;
-  }
+  <meta charset="UTF-8">
+  <title>Anime Background with Song</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
 
-  .cursor-inner,
-  .cursor-outer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-  }
+    /* Full-screen video background */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1; /* behind all content */
+    }
 
-  .cursor-inner {
-    width: 8px;
-    height: 8px;
-    background: white;
-  }
+    /* Content container (for audio or other elements) */
+    .content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-  .cursor-outer {
-    width: 32px;
-    height: 32px;
-    border: 2px solid white;
-    transition: width 0.15s ease, height 0.15s ease, border 0.15s ease;
-  }
-
-  /* Hover effect on clickable items */
-  button:hover, a:hover, input:hover {
-    cursor: none;
-  }
-
-  .cursor-outer.hovered {
-    width: 48px;
-    height: 48px;
-    border-color: red;
-  }
-</style>
+    audio {
+      width: 300px; /* adjust size as needed */
+    }
+  </style>
 </head>
 <body>
-<button style="position:absolute;top:50px;left:50px;">Test Button</button>
+  <!-- Background video -->
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="e61a6db9-ab09-4c24-9819-a6ad4badd86b.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-<div class="cursor-inner"></div>
-<div class="cursor-outer"></div>
-
-<script>
-const inner = document.querySelector('.cursor-inner');
-const outer = document.querySelector('.cursor-outer');
-
-let mouseX = 0, mouseY = 0;
-let outerX = 0, outerY = 0;
-
-// Track mouse position
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  inner.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-});
-
-// Animate outer circle with smooth trailing
-function animate() {
-  outerX += (mouseX - outerX) * 0.15;
-  outerY += (mouseY - outerY) * 0.15;
-  outer.style.transform = `translate(${outerX}px, ${outerY}px) translate(-50%, -50%)`;
-  requestAnimationFrame(animate);
-}
-animate();
-
-// Hover effect
-document.querySelectorAll('button, a, input').forEach(el => {
-  el.addEventListener('mouseenter', () => outer.classList.add('hovered'));
-  el.addEventListener('mouseleave', () => outer.classList.remove('hovered'));
-});
-
-// Click effect (optional)
-document.addEventListener('mousedown', () => {
-  outer.style.transform += ' scale(0.8)';
-});
-document.addEventListener('mouseup', () => {
-  outer.style.transform = outer.style.transform.replace(' scale(0.8)','');
-});
-</script>
+  <!-- Content (audio player, buttons, etc.) -->
+  <div class="content">
+    <audio controls autoplay>
+      <source src="Song.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 </body>
 </html>
