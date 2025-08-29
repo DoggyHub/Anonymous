@@ -4,10 +4,24 @@
   <meta charset="UTF-8">
   <title>My Simple Website</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="8" stroke="black" stroke-width="2" fill="none"/></svg>') 16 16, auto;
+    /* Hide the real cursor */
+    body, button, input, select, textarea, audio, video {
+      cursor: none;
+    }
+
+    /* Custom circle cursor */
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      border: 2px solid black;
+      border-radius: 50%;
+      pointer-events: none; /* so it doesn't block clicks */
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s ease-out;
+      z-index: 9999;
     }
   </style>
 </head>
@@ -20,5 +34,18 @@
     <source src="Song.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
+
+  <button>Click Me</button>
+
+  <!-- Circle cursor element -->
+  <div id="custom-cursor"></div>
+
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+
+    document.addEventListener('mousemove', e => {
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+    });
+  </script>
 </body>
 </html>
