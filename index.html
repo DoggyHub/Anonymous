@@ -7,20 +7,7 @@
     body {
       margin: 0;
       padding: 0;
-      cursor: none;
-    }
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 25px;
-      height: 25px;
-      border: 2px solid black;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s ease-out;
-      z-index: 9999;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="8" stroke="black" stroke-width="2" fill="none"/></svg>') 16 16, auto;
     }
   </style>
 </head>
@@ -33,26 +20,5 @@
     <source src="Song.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
-
-  <div class="cursor"></div>
-
-  <script>
-    const cursor = document.querySelector('.cursor');
-    let mouseX = 0, mouseY = 0;
-    let currentX = 0, currentY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    function animate() {
-      currentX += (mouseX - currentX) * 0.1;
-      currentY += (mouseY - currentY) * 0.1;
-      cursor.style.transform = `translate(${currentX}px, ${currentY}px)`;
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
 </body>
 </html>
